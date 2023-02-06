@@ -6,7 +6,11 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        majeed: ['Majeed', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
