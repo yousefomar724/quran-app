@@ -1,10 +1,10 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
 import QuranPage from '../components/QuranPage'
+import Text from 'react-svg-text'
 
-const Home: NextPage = () => {
+const Home = () => {
   return (
-    <div className='h-screen'>
+    <div>
       <Head>
         <title>Create Next App</title>
         <link rel='icon' href='/favicon.ico' />
