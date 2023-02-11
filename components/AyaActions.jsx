@@ -49,7 +49,7 @@ const AyaActions = ({ index, setValue, line }) => {
           <Menu.Item
             as='div'
             onClick={toggle}
-            className='text-gray-700 w-full hover:bg-gray-200 flex items-center justify-center gap-0.5 flex-col cursor-pointer'
+            className='text-gray-700 w-full hover:bg-gray-200 flex-col py-1 flex items-center justify-center gap-2 cursor-pointer'
           >
             {playing ? (
               <BsPauseFill className='text-lg' />
@@ -62,7 +62,7 @@ const AyaActions = ({ index, setValue, line }) => {
             as='div'
             className='text-gray-700 w-full hover:bg-gray-200 flex-col py-1 flex items-center justify-center gap-2 cursor-pointer'
           >
-            <BsCheck className='text-lg' />
+            <BsCheck className='text-xl' />
             <p className='text-xs'>حفظ</p>
           </Menu.Item>
           <Menu.Item

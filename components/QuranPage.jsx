@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useAudio } from '../hooks'
 import AyaActions from './AyaActions'
 
 const QuranPage = () => {
   const [quran, setQuran] = useState([])
   const [value, setValue] = useState(0)
-  // const [playing, toggle] = useAudio()
   const fetchData = async () => {
     const response = await fetch(
       'https://api.alquran.cloud/v1/page/5/ar.alafasy'
