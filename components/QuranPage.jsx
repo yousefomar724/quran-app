@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Fragment } from 'react'
-import Text from 'react-svg-text'
+import { useAudio } from '../hooks'
+import AyaActions from './AyaActions'
 
 const QuranPage = () => {
   const [quran, setQuran] = useState([])
+  const [value, setValue] = useState(0)
+  // const [playing, toggle] = useAudio()
   const fetchData = async () => {
     const response = await fetch(
       'https://api.alquran.cloud/v1/page/5/ar.alafasy'
@@ -15,77 +17,62 @@ const QuranPage = () => {
     fetchData()
   }, [])
 
-  let x = 1000
+  let x = 0
   let y = 100
   let lineHeight = 36
   let maxWidth = 2000
 
   const wrapText = (ayahs, x, y, maxWidth, lineHeight) => {
-    let line = ''
+    let line = {}
     let lines = []
 
-    ayahs.forEach((aya) => {
-      let testLine = line + aya.text + ' '
+    ayahs?.forEach((aya) => {
+      line = aya
+      let testLine = line.text + aya.text + ' '
       let testWidth = (testLine.length * lineHeight) / 2
       if (testWidth > maxWidth) {
         lines.push({ line, x, y })
-        line = aya.text + ' '
+        line.text = aya.text + ' '
         y += lineHeight
       } else {
-        line = testLine
+        line.text = testLine
       }
     })
-    lines.push({ line, x, y })
     return lines
   }
 
   if (quran?.ayahs?.length === 0) <div>Loading...</div>
   return (
-    <div>
-      <h1 className='font-majeed text-center text-4xl font-bold my-4'>
-        Quran Test
-      </h1>
-      <div className='p-6 my-10 h-[500vh]'>
-        {/* {quran?.ayahs?.map((aya, i) => (
-          <span
-            key={i}
-            className='hover:text-gray-900 cursor-pointer text-2xl md:text-3xl rounded-md hover:bg-gray-300 font-majeed'
-          >
-            <svg className=''>
-              <Text
-                verticalAnchor='start'
-                x='100'
-                y='100'
-                lineHeight='.5rem'
-                scaleToFit={true}
-              >
-                {aya.text}
-              </Text>
-              <span className='w-12 h-12 text-xs inline-flex items-center justify-center bg-[url(/separator.svg)] bg-no-repeat bg-[right_-0.1rem_top_-0.3rem] bg-cover'>
-                {i + 1}
-              </span>
-            </svg>
-          </span>
-        ))} */}
-        <svg width='100%' height='100%' className='leading-10'>
-          {wrapText(quran?.ayahs, x, y, maxWidth, lineHeight).map(
-            ({ line, x, y }, index) => (
-              <Fragment key={index}>
-                <text
-                  x={x}
-                  y={y}
-                  fontSize={lineHeight}
-                  fontFamily='majeed'
-                  writing-mode='rl-tb'
-                  direction='rtl'
-                  onClick={() => console.log('clicked')}
-                  className={`hover:fill-red-500`}
-                >
-                  {line}
-                </text>
-              </Fragment>
-            )
-          )}
+    <div className='h-screen w-full'>
+      <div className='w-[440px] mx-auto'>
+        <svg
+          width='100%'
+          height='100%'
+          className='leading-10 text-justify min-h-screen p-2'
+        >
+          <foreignObject width='100%' height='100%' direction='rtl'>
+            {wrapText(quran?.ayahs, x, y, maxWidth, lineHeight).map(
+              ({ line }, index) => (
+                <span key={index}>
+                  <span
+                    xmlns='http://www.w3.org/1999/xhtml'
+                    onClick={() => setValue(index)}
+                    className={`text-2xl w-full font-majeed text-center select-none ${
+                      value === index ? 'bg-gray-300' : ''
+                    }`}
+                  >
+                    {line.text}
+                  </span>
+                  <AyaActions
+                    setValue={setValue}
+                    line={line}
+                    value={value}
+                    index={index}
+                  />
+                </span>
+              )
+            )}
+          </foreignObject>
         </svg>
       </div>
     </div>
